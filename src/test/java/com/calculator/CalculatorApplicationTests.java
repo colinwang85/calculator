@@ -49,6 +49,7 @@ public class CalculatorApplicationTests {
         ClearOperatorServiceImpl clearOperatorService = new ClearOperatorServiceImpl();
         Operation o = clearOperatorService.operator(input);
         assertTrue(input.empty());
+        System.out.println("test");
     }
 
     @Before
