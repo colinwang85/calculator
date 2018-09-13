@@ -71,7 +71,7 @@ public class Calculator implements Runnable {
                 if (splitInput == null) {
                     continue;
                 }
-                Integer splitInputLength = splitInput.length();
+                int splitInputLength = splitInput.length();
                 splitInput = splitInput.trim().toLowerCase();
                 if (StringUtils.isEmpty(splitInput)) {
                     position += splitInputLength;
