@@ -1,7 +1,7 @@
 package com.calculator.control;
 
 import com.calculator.config.OperatorConfig;
-import com.calculator.exception.InsucientParametersException;
+import com.calculator.exception.InsufficientParametersException;
 import com.calculator.record.RecordManager;
 import com.calculator.record.Operation;
 import com.calculator.operator.*;
@@ -88,7 +88,7 @@ public class Calculator implements Runnable {
                         throw new UnsupportedOperationException(op + " unsupported operator");
                     }
                     if (op.getParameterNumbers() > paramStack.size()) {
-                        throw new InsucientParametersException(op, position);
+                        throw new InsufficientParametersException(op, position);
                     }
                     recordManager.record(op.operator(paramStack));
                 }
