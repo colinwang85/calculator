@@ -2,3 +2,7 @@
 *
 clear 1 2 +
 2 *
+3 /
+undo
+sqrt
+-

@@ -24,12 +24,12 @@ public class CalculatorFunctionalTest {
     public void prepare(){
         FILEDIR = FILEDIR.replace('.',File.separatorChar)+File.separator;
     }
-    @Test
+//    @Test
     public void testSimple() {
         testSingleOne("test_simple");
     }
 
-    //    @Test
+        @Test
     public void testAllInOne() {
         File baseDir = new File(FILEDIR);
         if (!baseDir.exists() || !baseDir.isDirectory()) {
@@ -60,7 +60,7 @@ public class CalculatorFunctionalTest {
                 outFile.delete();
             }
             if (!outFile.createNewFile()) {
-                throw new FileNotFoundException(outFileName);
+                throw new UnsupportedOperationException(outFileName);
             }
             PrintStream newOut = new PrintStream(new File(outFileName));
             System.setOut(newOut);
