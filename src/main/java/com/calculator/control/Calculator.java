@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-public class Calculator implements Runnable {
+public class Calculator {
 
     private Stack<BigDecimal> paramStack = new Stack<>();
 
@@ -51,7 +51,6 @@ public class Calculator implements Runnable {
         operatorsMap.put(division.getOperatorSignal(), division);
     }
 
-    @Override
     public void run() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
