@@ -13,7 +13,7 @@ public class NumberFormatUtil {
     }
 
     public static BigDecimal bigDecimalScaleFormat(Double d) {
-        return new BigDecimal(d + "").setScale(SCALE_STORE, ROUNDING_MODE);
+        return bigDecimalScaleFormat(d + "");
     }
 
     public static String bigDecimalReadScaleFormat(BigDecimal in) {
