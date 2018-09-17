@@ -46,15 +46,22 @@ public class Operation {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         Operation operation = (Operation) o;
-        return Objects.equals(position, operation.position) &&
-                Objects.equals(op, operation.op) &&
-                Arrays.equals(operands, operation.operands);
+        if (this.hashCode() != o.hashCode()) {
+            return false;
+        }
+        if (!position.equals(operation.position)) {
+            return false;
+        }
+        if (!op.getOperatorSignal().equals(operation.op.getOperatorSignal())) {
+            return false;
+        }
+        return Arrays.equals(operands, operation.operands);
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hash(position, op);
-        result = 47 * result + Arrays.hashCode(operands);
+        result = 31 * result + Arrays.hashCode(operands);
         return result;
     }
 }

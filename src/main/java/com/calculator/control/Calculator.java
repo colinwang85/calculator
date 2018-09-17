@@ -30,6 +30,11 @@ public class Calculator implements Runnable {
         this.run();
     }
 
+    //test only
+    public Calculator(String string) {
+        loadServices();
+    }
+
     private void loadServices() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(OperatorConfig.class);
         AddOperatorServiceImpl add = context.getBean(AddOperatorServiceImpl.class);
@@ -63,7 +68,7 @@ public class Calculator implements Runnable {
         }
     }
 
-    private void execute(String input) {
+    public void execute(String input) {
         int position = 0;
         try {
             for (String splitInput : input.split(" ")) {
@@ -100,15 +105,15 @@ public class Calculator implements Runnable {
     }
 
     private Operation loadOperation(String op) {
-        BigDecimal opValue = paramStack.push(NumberFormatUtil.bigDecimalSaveFormatter(op));
+        BigDecimal opValue = paramStack.push(NumberFormatUtil.bigDecimalScaleFormat(op));
         return new Operation(paramStack.size(), null, new BigDecimal[]{opValue});
     }
 
-    private void display() {
+    public void display() {
         StringBuilder sb = new StringBuilder();
         sb.append("stack: ");
         for (BigDecimal value : paramStack) {
-            sb.append(NumberFormatUtil.bigDecimalReadFormatter(value) + " ");
+            sb.append(NumberFormatUtil.bigDecimalReadScaleFormat(value) + " ");
         }
         System.out.println(sb.toString());
     }

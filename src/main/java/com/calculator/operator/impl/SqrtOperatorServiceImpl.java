@@ -24,7 +24,7 @@ public class SqrtOperatorServiceImpl implements OperatorService {
     public Operation operator(Stack<BigDecimal> paraStack) {
         BigDecimal a = paraStack.pop();
         Double result = Math.sqrt(a.doubleValue());
-        paraStack.push(NumberFormatUtil.bigDecimalSaveFormatter(Math.sqrt(a.doubleValue())));
+        paraStack.push(NumberFormatUtil.bigDecimalScaleFormat(Math.sqrt(a.doubleValue())));
         return new Operation(paraStack.size(), this, new BigDecimal[]{a});
     }
 }
