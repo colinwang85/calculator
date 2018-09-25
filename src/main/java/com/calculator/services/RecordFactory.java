@@ -13,7 +13,7 @@ import java.util.List;
 
 public class RecordFactory {
     private static final RecordFactory instance = new RecordFactory();
-    private List<Class<? extends RecordService>> recordPatternList = new ArrayList<>();
+    private List<RecordService> recordPatternList = new ArrayList<>();
     private static AnnotationConfigApplicationContext context;
 
     private RecordFactory() {
@@ -21,20 +21,16 @@ public class RecordFactory {
         NumberRecordServiceImpl simpleRecord = context.getBean(NumberRecordServiceImpl.class);
         UndoRecordServiceImpl undoRecord = context.getBean(UndoRecordServiceImpl.class);
         OperatorRecordServiceImpl operateRecord = context.getBean(OperatorRecordServiceImpl.class);
-        recordPatternList.add(simpleRecord.getClass());
-        recordPatternList.add(undoRecord.getClass());
-        recordPatternList.add(operateRecord.getClass());
+        recordPatternList.add(simpleRecord);
+        recordPatternList.add(undoRecord);
+        recordPatternList.add(operateRecord);
     }
 
     public RecordService getRecord(String value) {
-        for (Class<? extends RecordService> clazz : recordPatternList) {
-            InputHandler handler = handleInputValidator(clazz);
+        for (RecordService service : recordPatternList) {
+            InputHandler handler = handleInputValidator(service.getClass());
             if (handler != null && value.matches(handler.categoryOp())) {
-                try {
-                    return clazz.newInstance();
-                } catch (Exception e) {
-                    throw new RuntimeException("strategy initialize failed");
-                }
+                return service;
             }
         }
         OperatorRecordServiceImpl defaultRecordService = context.getBean(OperatorRecordServiceImpl.class);
