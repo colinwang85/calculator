@@ -35,6 +35,7 @@ public class OperatorRecordServiceImpl implements RecordService {
         operatorsMap.put(division.getOperatorSignal(), division);
     }
 
+    @Override
     public void execute(Stack<Operation> recordStack, Stack<BigDecimal> valueStack, String value, int position) {
         OperatorService op = operatorsMap.get(value);
         if (op == null) {

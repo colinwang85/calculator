@@ -11,6 +11,7 @@ import java.util.Stack;
 @Service
 @InputHandler(categoryOp = "^undo$")
 public class UndoRecordServiceImpl implements RecordService {
+    @Override
     public void execute(Stack<Operation> recordStack, Stack<BigDecimal> paraStack, String value, int position) {
         if (recordStack.isEmpty()) {
             return;

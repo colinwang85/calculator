@@ -12,6 +12,7 @@ import java.util.Stack;
 @Service
 @InputHandler(categoryOp = "^[0-9]*$")
 public class NumberRecordServiceImpl implements RecordService {
+    @Override
     public void execute(Stack<Operation> recordStack, Stack<BigDecimal> valueStack, String value, int position) {
         recordStack.push(generateOperation(valueStack, value));
     }
