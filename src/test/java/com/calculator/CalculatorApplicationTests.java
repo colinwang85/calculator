@@ -1,8 +1,8 @@
 package com.calculator;
 
-import com.calculator.operator.OperatorService;
-import com.calculator.operator.impl.*;
-import com.calculator.record.Operation;
+import com.calculator.services.OperatorService;
+import com.calculator.services.impl.*;
+import com.calculator.entity.Operation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +48,7 @@ public class CalculatorApplicationTests {
     public void testClear() {
         ClearOperatorServiceImpl clearOperatorService = new ClearOperatorServiceImpl();
         Operation o = clearOperatorService.operator(input);
-        assertTrue(input.empty());
+        assertTrue(input.isEmpty());
     }
 
     @Before

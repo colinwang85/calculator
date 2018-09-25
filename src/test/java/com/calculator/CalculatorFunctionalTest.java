@@ -1,6 +1,7 @@
 package com.calculator;
 
 import com.calculator.control.Calculator;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,15 +22,72 @@ public class CalculatorFunctionalTest {
     private static final String EXPECTFILESUFFIX = ".expect";
 
     @Before
-    public void prepare(){
-        FILEDIR = FILEDIR.replace('.',File.separatorChar)+File.separator;
+    public void prepare() {
+        FILEDIR = FILEDIR.replace('.', File.separatorChar) + File.separator;
     }
-//    @Test
+
+    @Test
     public void testSimple() {
         testSingleOne("test_simple");
     }
 
-        @Test
+    @Test
+    public void testExample1() {
+        testSingleOne("test_example1");
+    }
+
+    @Test
+    public void testExample2() {
+        testSingleOne("test_example2");
+    }
+
+    @Test
+    public void testExample3() {
+        testSingleOne("test_example3");
+    }
+
+    @Test
+    public void testExample4() {
+        testSingleOne("test_example4");
+    }
+
+    @Test
+    public void testExample5() {
+        testSingleOne("test_example5");
+    }
+
+    @Test
+    public void testExample6() {
+        testSingleOne("test_example6");
+    }
+
+    @Test
+    public void testExample7() {
+        testSingleOne("test_example7");
+    }
+
+    @Test
+    public void testExample8() {
+        testSingleOne("test_example8");
+    }
+
+//    @After
+    public void clean() {
+        File baseDir = new File(FILEDIR);
+        if (!baseDir.exists() || !baseDir.isDirectory()) {
+            return;
+        }
+        String[] allFiles = baseDir.list();
+        for (String filename : allFiles) {
+            if (filename.endsWith(OUTFILESUFFIX)) {
+                System.out.println("clean " + filename);
+                File outFile = new File(FILEDIR + filename);
+                outFile.delete();
+            }
+        }
+    }
+
+    //    @Test
     public void testAllInOne() {
         File baseDir = new File(FILEDIR);
         if (!baseDir.exists() || !baseDir.isDirectory()) {
@@ -38,7 +96,7 @@ public class CalculatorFunctionalTest {
         String[] allFiles = baseDir.list();
         ArrayList<String> allTestName = new ArrayList<>();
         for (String filename : allFiles) {
-            if (filename.endsWith("txt")) {
+            if (filename.endsWith(TESTFILESUFFIX)) {
                 String executeName = filename.substring(0, filename.length() - 4);
                 allTestName.add(executeName);
             }
@@ -115,10 +173,4 @@ public class CalculatorFunctionalTest {
         return reader;
     }
 
-    private boolean isResult(String lineInfo) {
-        if (lineInfo.startsWith("stack")) {
-            return true;
-        }
-        return false;
-    }
 }

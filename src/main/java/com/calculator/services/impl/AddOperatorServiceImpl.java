@@ -1,18 +1,17 @@
-package com.calculator.operator.impl;
+package com.calculator.services.impl;
 
-import com.calculator.record.Operation;
-import com.calculator.operator.OperatorService;
-import com.calculator.utils.NumberFormatUtil;
+import com.calculator.entity.Operation;
+import com.calculator.services.OperatorService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Stack;
 
 @Service
-public class DivisionOperatorServiceImpl implements OperatorService {
+public class AddOperatorServiceImpl implements OperatorService {
     @Override
     public String getOperatorSignal() {
-        return "/";
+        return "+";
     }
 
     @Override
@@ -24,7 +23,7 @@ public class DivisionOperatorServiceImpl implements OperatorService {
     public Operation operator(Stack<BigDecimal> paraStack) {
         BigDecimal a = paraStack.pop();
         BigDecimal b = paraStack.pop();
-        paraStack.push(b.divide(a, NumberFormatUtil.SCALE_STORE, NumberFormatUtil.ROUNDING_MODE));
+        paraStack.push(a.add(b));
         return new Operation(paraStack.size(), this, new BigDecimal[]{b, a});
     }
 

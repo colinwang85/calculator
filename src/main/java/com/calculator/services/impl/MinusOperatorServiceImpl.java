@@ -1,7 +1,7 @@
-package com.calculator.operator.impl;
+package com.calculator.services.impl;
 
-import com.calculator.record.Operation;
-import com.calculator.operator.OperatorService;
+import com.calculator.entity.Operation;
+import com.calculator.services.OperatorService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

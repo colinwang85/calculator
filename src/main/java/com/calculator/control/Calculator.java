@@ -2,10 +2,9 @@ package com.calculator.control;
 
 import com.calculator.config.OperatorConfig;
 import com.calculator.exception.InsufficientParametersException;
-import com.calculator.record.RecordManager;
-import com.calculator.record.Operation;
-import com.calculator.operator.*;
-import com.calculator.operator.impl.*;
+import com.calculator.entity.Operation;
+import com.calculator.services.*;
+import com.calculator.services.impl.*;
 import com.calculator.utils.NumberFormatUtil;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.StringUtils;
@@ -19,7 +18,7 @@ import java.util.Stack;
 
 public class Calculator {
 
-    private Stack<BigDecimal> paramStack = new Stack<>();
+    private Stack<BigDecimal> paraStack = new Stack<>();
 
     private RecordManager recordManager = new RecordManager();
 
@@ -83,18 +82,18 @@ public class Calculator {
                 }
 
                 if (splitInput.equals("undo")) {
-                    recordManager.undo(paramStack);
+                    recordManager.undo(paraStack);
                 } else if (splitInput.matches("^[0-9]*$")) {
-                    recordManager.record(loadOperation(splitInput));
+                    recordManager.record(generateOperation(splitInput));
                 } else {
                     OperatorService op = operatorsMap.get(splitInput);
                     if (op == null) {
                         throw new UnsupportedOperationException(op + " unsupported operator");
                     }
-                    if (op.getParameterNumbers() > paramStack.size()) {
+                    if (op.getParameterNumbers() > paraStack.size()) {
                         throw new InsufficientParametersException(op, position);
                     }
-                    recordManager.record(op.operator(paramStack));
+                    recordManager.record(op.operator(paraStack));
                 }
                 position += splitInputLength;
             }
@@ -103,17 +102,15 @@ public class Calculator {
         }
     }
 
-    private Operation loadOperation(String op) {
-        BigDecimal opValue = paramStack.push(NumberFormatUtil.bigDecimalScaleFormat(op));
-        return new Operation(paramStack.size(), null, new BigDecimal[]{opValue});
+    private Operation generateOperation(String op) {
+        BigDecimal opValue = NumberFormatUtil.bigDecimalScaleFormat(op);
+        return new Operation(paraStack.size(), null, new BigDecimal[]{paraStack.push(opValue)});
     }
 
     public void display() {
         StringBuilder sb = new StringBuilder();
         sb.append("stack: ");
-        for (BigDecimal value : paramStack) {
-            sb.append(NumberFormatUtil.bigDecimalReadScaleFormat(value) + " ");
-        }
+        paraStack.forEach(v -> sb.append(NumberFormatUtil.bigDecimalReadScaleFormat(v) + " "));
         System.out.println(sb.toString());
     }
 

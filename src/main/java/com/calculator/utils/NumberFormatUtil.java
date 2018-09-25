@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 
 public class NumberFormatUtil {
     public static final Integer SCALE_STORE = 15;
-    public static final RoundingMode ROUNDING_MODE = RoundingMode.CEILING;
+    public static final RoundingMode ROUNDING_MODE = RoundingMode.FLOOR;
     private static final Integer SCALE_DISPLAY = 10;
 
     public static BigDecimal bigDecimalScaleFormat(String str) {

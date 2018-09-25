@@ -1,0 +1,2 @@
+2 sqrt
+clear 9 sqrt

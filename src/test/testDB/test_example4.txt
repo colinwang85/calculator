@@ -1,0 +1,4 @@
+5 4 3 2
+undo undo *
+5 *
+undo

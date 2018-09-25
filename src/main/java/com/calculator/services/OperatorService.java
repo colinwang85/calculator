@@ -1,6 +1,6 @@
-package com.calculator.operator;
+package com.calculator.services;
 
-import com.calculator.record.Operation;
+import com.calculator.entity.Operation;
 
 import java.math.BigDecimal;
 import java.util.Stack;

@@ -1,7 +1,7 @@
-package com.calculator.operator.impl;
+package com.calculator.services.impl;
 
-import com.calculator.record.Operation;
-import com.calculator.operator.OperatorService;
+import com.calculator.entity.Operation;
+import com.calculator.services.OperatorService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,7 +21,9 @@ public class ClearOperatorServiceImpl implements OperatorService {
 
     @Override
     public Operation operator(Stack<BigDecimal> paraStack) {
+        Stack<BigDecimal> all = new Stack();
+        all.addAll(paraStack);
         paraStack.clear();
-        return new Operation(0, this, null);
+        return new Operation(0, this, all.toArray(new BigDecimal[]{}));
     }
 }
