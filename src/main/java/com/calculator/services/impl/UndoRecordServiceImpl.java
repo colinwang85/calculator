@@ -9,15 +9,13 @@ import java.math.BigDecimal;
 import java.util.Stack;
 
 @Service
-@InputHandler(categoryOp="^undo$")
+@InputHandler(categoryOp = "^undo$")
 public class UndoRecordServiceImpl implements RecordService {
     public void execute(Stack<Operation> recordStack, Stack<BigDecimal> paraStack, String value, int position) {
-        Operation previousOp;
-        if (!recordStack.isEmpty()) {
-            previousOp = recordStack.pop();
-        } else {
+        if (recordStack.isEmpty()) {
             return;
         }
+        Operation previousOp = recordStack.pop();
         if (paraStack.size() > 0) {
             paraStack.pop();
         }
