@@ -3,15 +3,17 @@ in main.java.com.calculator
 config:
     config file
 control:
-    controller, include Calculator and recordManager
+    calculator control
 exception:
     self-defined exception
 services:
-    all operator services except undo, include + - * / sqrt clear 
+    all operator services, include + - * / sqrt clear undo
 entity
-    operation
+    operation entity
 utils
     bigDecimal format
+validator
+    validate the input value
 CalculatorApplication is the program entry
 
 in test.java.com.calculator

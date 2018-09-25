@@ -1,11 +1,11 @@
 package com.calculator.control;
 
 import com.calculator.config.OperatorConfig;
-import com.calculator.exception.InsufficientParametersException;
 import com.calculator.entity.Operation;
 import com.calculator.services.*;
-import com.calculator.services.impl.*;
 import com.calculator.utils.NumberFormatUtil;
+import com.calculator.services.RecordService;
+import com.calculator.services.RecordFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.StringUtils;
 
@@ -18,36 +18,20 @@ import java.util.Stack;
 
 public class Calculator {
 
-    private Stack<BigDecimal> paraStack = new Stack<>();
+    private Stack<BigDecimal> valueStack = new Stack<>();
+    private Stack<Operation> operationStack = new Stack<>();
 
-    private RecordManager recordManager = new RecordManager();
-
-    private Map<String, OperatorService> operatorsMap = new HashMap<>();
+    private static AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(OperatorConfig.class);
 
     public Calculator() {
-        loadServices();
         this.run();
     }
 
     //test only
-    public Calculator(String string) {
-        loadServices();
-    }
+    public Calculator(String string) {}
 
-    private void loadServices() {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(OperatorConfig.class);
-        AddOperatorServiceImpl add = context.getBean(AddOperatorServiceImpl.class);
-        operatorsMap.put(add.getOperatorSignal(), add);
-        ClearOperatorServiceImpl clear = context.getBean(ClearOperatorServiceImpl.class);
-        operatorsMap.put(clear.getOperatorSignal(), clear);
-        SqrtOperatorServiceImpl sqrt = context.getBean(SqrtOperatorServiceImpl.class);
-        operatorsMap.put(sqrt.getOperatorSignal(), sqrt);
-        MinusOperatorServiceImpl minus = context.getBean(MinusOperatorServiceImpl.class);
-        operatorsMap.put(minus.getOperatorSignal(), minus);
-        MultiplyOperatorServiceImpl mutiply = context.getBean(MultiplyOperatorServiceImpl.class);
-        operatorsMap.put(mutiply.getOperatorSignal(), mutiply);
-        DivisionOperatorServiceImpl division = context.getBean(DivisionOperatorServiceImpl.class);
-        operatorsMap.put(division.getOperatorSignal(), division);
+    public static AnnotationConfigApplicationContext getContext(){
+        return context;
     }
 
     public void run() {
@@ -80,21 +64,8 @@ public class Calculator {
                     position += splitInputLength;
                     continue;
                 }
-
-                if (splitInput.equals("undo")) {
-                    recordManager.undo(paraStack);
-                } else if (splitInput.matches("^[0-9]*$")) {
-                    recordManager.record(generateOperation(splitInput));
-                } else {
-                    OperatorService op = operatorsMap.get(splitInput);
-                    if (op == null) {
-                        throw new UnsupportedOperationException(op + " unsupported operator");
-                    }
-                    if (op.getParameterNumbers() > paraStack.size()) {
-                        throw new InsufficientParametersException(op, position);
-                    }
-                    recordManager.record(op.operator(paraStack));
-                }
+                RecordService record = RecordFactory.getInstance().getRecord(splitInput);
+                record.execute(operationStack,valueStack,splitInput,position);
                 position += splitInputLength;
             }
         } catch (Exception e) {
@@ -102,15 +73,10 @@ public class Calculator {
         }
     }
 
-    private Operation generateOperation(String op) {
-        BigDecimal opValue = NumberFormatUtil.bigDecimalScaleFormat(op);
-        return new Operation(paraStack.size(), null, new BigDecimal[]{paraStack.push(opValue)});
-    }
-
     public void display() {
         StringBuilder sb = new StringBuilder();
         sb.append("stack: ");
-        paraStack.forEach(v -> sb.append(NumberFormatUtil.bigDecimalReadScaleFormat(v) + " "));
+        valueStack.forEach(v -> sb.append(NumberFormatUtil.bigDecimalReadScaleFormat(v) + " "));
         System.out.println(sb.toString());
     }
 
