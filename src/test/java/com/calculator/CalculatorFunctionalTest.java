@@ -120,7 +120,7 @@ public class CalculatorFunctionalTest {
             if (!outFile.createNewFile()) {
                 throw new UnsupportedOperationException(outFileName);
             }
-            PrintStream newOut = new PrintStream(new File(outFileName));
+            PrintStream newOut = new PrintStream(outFile);
             System.setOut(newOut);
             String testLineInfo = null;
             while ((testLineInfo = testReader.readLine()) != null) {
