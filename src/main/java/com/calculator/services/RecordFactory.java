@@ -38,16 +38,11 @@ public class RecordFactory {
     }
 
     private InputHandler handleInputValidator(Class<? extends RecordService> clazz) {
-        Annotation[] annotations = clazz.getAnnotations();
-        if (annotations == null || annotations.length == 0) {
+        try{
+            return clazz.getDeclaredAnnotation(InputHandler.class);
+        } catch (Exception e) {
             return null;
         }
-        for (Annotation annotation : annotations) {
-            if (annotation instanceof InputHandler) {
-                return (InputHandler) annotation;
-            }
-        }
-        return null;
     }
 
     public static RecordFactory getInstance() {
