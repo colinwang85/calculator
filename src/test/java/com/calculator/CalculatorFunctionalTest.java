@@ -97,7 +97,7 @@ public class CalculatorFunctionalTest {
         ArrayList<String> allTestName = new ArrayList<>();
         for (String filename : allFiles) {
             if (filename.endsWith(TESTFILESUFFIX)) {
-                String executeName = filename.substring(0, filename.length() - 4);
+                String executeName = filename.substring(0, filename.length() - TESTFILESUFFIX.length());
                 allTestName.add(executeName);
             }
         }
