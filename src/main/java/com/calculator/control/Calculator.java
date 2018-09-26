@@ -28,15 +28,15 @@ public class Calculator {
     }
 
     //test only
-    public Calculator(String string) {}
+    public Calculator(String string) {
+    }
 
-    public static AnnotationConfigApplicationContext getContext(){
+    public static AnnotationConfigApplicationContext getContext() {
         return context;
     }
 
     public void run() {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in));) {
             String input = br.readLine();
             while (!input.equals("q")) {
                 if (!StringUtils.isEmpty(input)) {
@@ -65,7 +65,7 @@ public class Calculator {
                     continue;
                 }
                 RecordService record = RecordFactory.getInstance().getRecord(splitInput);
-                record.execute(operationStack,valueStack,splitInput,position);
+                record.execute(operationStack, valueStack, splitInput, position);
                 position += splitInputLength;
             }
         } catch (Exception e) {
