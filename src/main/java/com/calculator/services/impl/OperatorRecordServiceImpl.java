@@ -30,6 +30,7 @@ public class OperatorRecordServiceImpl implements RecordService {
     @Autowired
     private DivisionOperatorServiceImpl division;
 
+    @Autowired
     private void loadOperators(){
         operatorsMap.putIfAbsent(add.getOperatorSignal(), add);
         operatorsMap.putIfAbsent(clear.getOperatorSignal(), clear);
@@ -41,7 +42,6 @@ public class OperatorRecordServiceImpl implements RecordService {
 
     @Override
     public void execute(Stack<Operation> recordStack, Stack<BigDecimal> valueStack, String value, int position) {
-        loadOperators();
         OperatorService op = operatorsMap.get(value);
         if (op == null) {
             throw new UnsupportedOperationException(op + " unsupported operator");
